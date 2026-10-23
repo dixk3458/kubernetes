@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx-pod-ip
+  namespace: service-lab
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: nginx-pod-ip
+
+  template:
+    metadata:
+      labels:
+        app: nginx-pod-ip
+
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28-alpine
+          ports:
+            - containerPort: 80
+              protocol: TCP

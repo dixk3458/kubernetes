@@ -40,3 +40,26 @@ Service TargetPort를 실제 nginx 수신 포트와 다르게 설정하여 HTTP 
 Kubernetes Pod가 Running/Ready 상태라고 해서 Service 통신까지 정상임을 보장하지 않습니다.
 
 장애가 발생하면 Service 설정, Pod Label, EndpointSlice 및 실제 HTTP 응답을 근거로 원인을 판단해야 합니다.
+
+## 6. 프로젝트 파일 구성
+
+### Kubernetes Manifests
+
+| 파일                                                     | 설명                         |
+| -------------------------------------------------------- | ---------------------------- |
+| [nginx-deployment.yaml](manifests/nginx-deployment.yaml) | nginx Deployment 및 Pod 구성 |
+| [nginx-clusterip.yaml](manifests/nginx-clusterip.yaml)   | ClusterIP Service 구성       |
+| [nginx-nodeport.yaml](manifests/nginx-nodeport.yaml)     | NodePort Service 구성        |
+
+### 장애 재현 및 복구 기록
+
+| 장애 사례                                             | 주요 원인                                  |
+| ----------------------------------------------------- | ------------------------------------------ |
+| [Selector 불일치](incidents/selector-mismatch.md)     | Service Selector와 Pod Label 불일치        |
+| [TargetPort 불일치](incidents/targetport-mismatch.md) | Service TargetPort와 실제 수신 포트 불일치 |
+
+## 7. 검증 범위
+
+본 프로젝트의 장애 재현 및 복구 결과는 기존 Kubernetes 가상머신 실습에서 관찰한 내용을 기반으로 한다.
+
+포트폴리오용 Manifest는 실습 구성을 참고하여 로컬 VS Code에서 별도로 작성했으며, 해당 파일 자체를 이용한 신규 배포 검증은 수행하지 않았다.
