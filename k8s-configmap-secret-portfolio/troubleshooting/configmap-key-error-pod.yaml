@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-key-error-pod
+  namespace: config-lab
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.27
+      env:
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: web-config
+              key: LOG_LEVEL_TYPO

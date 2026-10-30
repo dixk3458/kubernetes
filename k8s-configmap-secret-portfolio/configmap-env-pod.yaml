@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-env-pod
+  namespace: config-lab
+  labels:
+    app: configmap-env
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.27
+      env:
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: web-config
+              key: LOG_LEVEL
+
+        - name: APP_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: web-config
+              key: APP_MODE
+
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: web-config
+              key: DB_HOST
