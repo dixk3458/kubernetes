@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: delete-marker
+  namespace: namespace-delete-lab
+data:
+  purpose: namespace-deletion-test
