@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: storage-local-wffc-pod
+  namespace: storage-lab
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.28-alpine
+      volumeMounts:
+        - name: wffc-storage
+          mountPath: /data
+  volumes:
+    - name: wffc-storage
+      persistentVolumeClaim:
+        claimName: storage-local-wffc-pvc

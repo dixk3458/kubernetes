@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-loss-demo
+  namespace: storage-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-loss-demo
+  template:
+    metadata:
+      labels:
+        app: data-loss-demo
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28-alpine
