@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qos-guaranteed-demo
+  namespace: probe-resource-lab
+  labels:
+    app: qos-guaranteed-demo
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.28-alpine
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "64Mi"
+        limits:
+          cpu: "100m"
+          memory: "64Mi"

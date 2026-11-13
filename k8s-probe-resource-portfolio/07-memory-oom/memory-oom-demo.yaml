@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory-oom-demo
+  namespace: probe-resource-lab
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: memory-oom-demo
+  template:
+    metadata:
+      labels:
+        app: memory-oom-demo
+    spec:
+      containers:
+        - name: memory-test
+          image: python:3.12-alpine
+          command:
+            - python
+            - -u
+            - -c
+          args:
+            - "import time; print('memory demo ready', flush=True); time.sleep(3600)"
+          resources:
+            requests:
+              memory: "16Mi"
+            limits:
+              memory: "128Mi"

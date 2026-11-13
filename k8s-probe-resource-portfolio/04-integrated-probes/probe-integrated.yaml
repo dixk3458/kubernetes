@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: probe-integrated
+  namespace: probe-resource-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: probe-integrated
+  template:
+    metadata:
+      labels:
+        app: probe-integrated
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28-alpine
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - "sleep 25; exec nginx -g 'daemon off;'"
+          ports:
+            - containerPort: 80
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "echo ready > /usr/share/nginx/html/readyz; echo alive > /usr/share/nginx/html/livez"
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 12
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 80
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 2
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: 80
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readiness-demo
+  namespace: probe-resource-lab
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: readiness-demo
+  template:
+    metadata:
+      labels:
+        app: readiness-demo
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28-alpine
+          ports:
+            - containerPort: 80
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "echo ready > /usr/share/nginx/html/readyz"
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 2

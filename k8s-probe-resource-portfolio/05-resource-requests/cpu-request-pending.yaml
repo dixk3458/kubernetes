@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-request-pending
+  namespace: probe-resource-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-request-pending
+  template:
+    metadata:
+      labels:
+        app: cpu-request-pending
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.28-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "64Mi"

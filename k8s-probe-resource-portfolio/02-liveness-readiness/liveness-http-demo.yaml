@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-http-demo
+  namespace: probe-resource-lab
+  labels:
+    app: liveness-http-demo
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.28-alpine
+      ports:
+        - containerPort: 80
+      livenessProbe:
+        httpGet:
+          path: /index.html
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 2
+        failureThreshold: 3
